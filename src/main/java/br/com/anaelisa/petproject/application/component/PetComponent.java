@@ -4,16 +4,17 @@ import br.com.anaelisa.petproject.domain.entity.PetEntity;
 import br.com.anaelisa.petproject.application.error.PetNotFoundException;
 import br.com.anaelisa.petproject.application.dto.UpdatePetDTO;
 import br.com.anaelisa.petproject.infra.repository.PetRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PetComponent {
 
-    @Autowired
-    PetRepository petRepository;
+    private final PetRepository petRepository;
 
     public List<PetEntity> getPetList() {
         return petRepository.findAll();
