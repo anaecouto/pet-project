@@ -1,8 +1,8 @@
-package br.com.anaelisa.petproject.domain.component;
+package br.com.anaelisa.petproject.application.component;
 
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
-import br.com.anaelisa.petproject.errors.PetNotFoundException;
-import br.com.anaelisa.petproject.infra.dtos.UpdatePetDTO;
+import br.com.anaelisa.petproject.application.error.PetNotFoundException;
+import br.com.anaelisa.petproject.application.dto.UpdatePetDTO;
 import br.com.anaelisa.petproject.infra.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,9 @@ public class PetComponent {
         return petRepository.save(petEntity);
     }
 
-    public PetEntity updatePet(UpdatePetDTO updatePetDTO, PetEntity existingPet) {
+    public PetEntity updatePet(UpdatePetDTO updatePetDTO, Long id) {
+        PetEntity existingPet = getPetById(id);
+
         updatePetDTO.getName().ifPresent(existingPet::setName);
         updatePetDTO.getType().ifPresent(existingPet::setType);
         updatePetDTO.getBreed().ifPresent(existingPet::setBreed);

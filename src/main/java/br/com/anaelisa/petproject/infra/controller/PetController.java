@@ -1,9 +1,9 @@
 package br.com.anaelisa.petproject.infra.controller;
 
-import br.com.anaelisa.petproject.domain.component.PetComponent;
+import br.com.anaelisa.petproject.application.component.PetComponent;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
-import br.com.anaelisa.petproject.handler.ApiResponse;
-import br.com.anaelisa.petproject.infra.dtos.UpdatePetDTO;
+import br.com.anaelisa.petproject.infra.helper.ApiResponse;
+import br.com.anaelisa.petproject.application.dto.UpdatePetDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,9 +50,8 @@ public class PetController {
 
     @PatchMapping("{id}")
     public ResponseEntity<ApiResponse<PetEntity>> updatePet(@PathVariable Long id, @Valid @RequestBody UpdatePetDTO updatePetDTO) {
-        PetEntity existingPet = petComponent.getPetById(id);
 
-        PetEntity petUpdated = petComponent.updatePet(updatePetDTO, existingPet);
+        PetEntity petUpdated = petComponent.updatePet(updatePetDTO, id);
 
         ApiResponse<PetEntity> apiResponse = new ApiResponse<>("SUCCESS", petUpdated, 200L, null);
 

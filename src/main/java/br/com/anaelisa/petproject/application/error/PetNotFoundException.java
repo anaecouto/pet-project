@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.errors;
+package br.com.anaelisa.petproject.application.error;
 
 public class PetNotFoundException extends RuntimeException {
 

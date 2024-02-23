@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.infra.dtos;
+package br.com.anaelisa.petproject.application.dto;
 
 import jakarta.annotation.Nullable;
 
