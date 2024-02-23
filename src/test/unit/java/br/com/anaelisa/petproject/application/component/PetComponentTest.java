@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +47,7 @@ public class PetComponentTest {
         PetEntity petEntity = new PetEntity();
         petEntity.setId(1L);
 
-        when(petRepository.save(any())).thenReturn(petEntity);
+        when(petRepository.save(eq(petEntity))).thenReturn(petEntity);
 
         PetEntity pet = petComponent.savePet(petEntity);
 
