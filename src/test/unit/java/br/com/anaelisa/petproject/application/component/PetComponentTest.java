@@ -36,10 +36,10 @@ public class PetComponentTest {
 
         List<PetEntity> petEntityListResult = petComponent.getPetList();
 
-        assertEquals(petEntityListResult.get(0).getId(), Long.valueOf(1L));
-        assertEquals(petEntityListResult.get(0).getName(), "pet 1");
-        assertEquals(petEntityListResult.get(0).getType(), "type 1");
-        assertEquals(petEntityListResult.get(0).getBreed(), "breed 1");
+        assertEquals(Long.valueOf(1L), petEntityListResult.get(0).getId());
+        assertEquals( "pet 1", petEntityListResult.get(0).getName());
+        assertEquals("type 1", petEntityListResult.get(0).getType());
+        assertEquals("breed 1", petEntityListResult.get(0).getBreed());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class PetComponentTest {
 
         PetEntity pet = petComponent.savePet(petEntity);
 
-        assertEquals(pet.getId(), Long.valueOf(1L));
+        assertEquals(Long.valueOf(1L), pet.getId());
     }
 
     @Test
@@ -62,6 +62,19 @@ public class PetComponentTest {
         PetNotFoundException exception = assertThrows(PetNotFoundException.class, () -> petComponent.getPetById(1L));
 
         assertEquals("Pet not found", exception.getMessage());
+    }
+
+    @Test
+    void shouldFindPet() {
+
+        PetEntity petEntity = new PetEntity();
+        petEntity.setId(1L);
+
+        when(petRepository.findById(1L)).thenReturn(Optional.of(petEntity));
+
+        PetEntity petEntityResult = petComponent.getPetById(1L);
+
+        assertEquals(Long.valueOf(1L), petEntityResult.getId());
     }
 
 }
