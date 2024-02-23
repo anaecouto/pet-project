@@ -2,6 +2,7 @@ package br.com.anaelisa.petproject.infra.controller;
 
 import br.com.anaelisa.petproject.BaseIntegrationTest;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -10,9 +11,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.google.gson.GsonBuilder;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
