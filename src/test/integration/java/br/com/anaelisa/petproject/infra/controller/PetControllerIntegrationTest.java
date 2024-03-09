@@ -123,13 +123,15 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     void updatePet() throws Exception {
         PetEntity petEntity = new PetEntity();
 
+        petEntity.setId(1L);
         petEntity.setName("nameUpdated");
         petEntity.setType("typeUpdated");
+        petEntity.setBreed("breed");
 
         String content = (new GsonBuilder().setPrettyPrinting().create().toJson(petEntity));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .patch("/pet/{id}", 1L)
+                .put("/pet")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
 
@@ -145,13 +147,15 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     void updatePetFailureWithNonExistentId() throws Exception {
         PetEntity petEntity = new PetEntity();
 
+        petEntity.setId(1L);
         petEntity.setName("nameUpdated");
         petEntity.setType("typeUpdated");
+        petEntity.setBreed("breedUpdated");
 
         String content = (new GsonBuilder().setPrettyPrinting().create().toJson(petEntity));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .patch("/pet/{id}", 1L)
+                .put("/pet")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
 

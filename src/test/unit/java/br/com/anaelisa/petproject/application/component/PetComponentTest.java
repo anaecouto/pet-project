@@ -1,8 +1,10 @@
 package br.com.anaelisa.petproject.application.component;
 
+import br.com.anaelisa.petproject.application.dto.PetDTO;
 import br.com.anaelisa.petproject.application.error.PetNotFoundException;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
 import br.com.anaelisa.petproject.infra.repository.PetRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,10 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PetComponentTest {
@@ -34,24 +35,65 @@ public class PetComponentTest {
 
         when(petRepository.findAll()).thenReturn(petEntityList);
 
-        List<PetEntity> petEntityListResult = petComponent.getPetList();
+        List<PetDTO> petEntityListResult = petComponent.getPetList();
 
-        assertEquals(Long.valueOf(1L), petEntityListResult.get(0).getId());
-        assertEquals( "pet 1", petEntityListResult.get(0).getName());
-        assertEquals("type 1", petEntityListResult.get(0).getType());
-        assertEquals("breed 1", petEntityListResult.get(0).getBreed());
+        Assertions.assertEquals(Long.valueOf(1L), petEntityListResult.get(0).getId());
+        Assertions.assertEquals("pet 1", petEntityListResult.get(0).getName());
+        Assertions.assertEquals("type 1", petEntityListResult.get(0).getType());
+        Assertions.assertEquals("breed 1", petEntityListResult.get(0).getBreed());
+    }
+
+    @Test
+    void shouldUpdatePet() {
+
+        PetDTO updatedPetDTO = PetDTO.builder()
+                .id(1L)
+                .name("New name")
+                .type("Dog")
+                .breed("Golden Retriever")
+                .build();
+
+        PetEntity existingPetEntity = new PetEntity();
+        existingPetEntity.setId(1L);
+        existingPetEntity.setName("Old name");
+        existingPetEntity.setType("Dog");
+        existingPetEntity.setBreed("Golden Retriever");
+
+        PetEntity savedPetEntity = new PetEntity();
+        savedPetEntity.setId(1L);
+        savedPetEntity.setName("New name");
+        savedPetEntity.setType("Dog");
+        savedPetEntity.setBreed("Golden Retriever");
+
+        when(petRepository.findById(1L)).thenReturn(Optional.of(existingPetEntity));
+        when(petRepository.save(existingPetEntity)).thenReturn(savedPetEntity);
+
+        PetDTO returnedPetDTO = petComponent.updatePet(updatedPetDTO);
+
+        Assertions.assertEquals(returnedPetDTO.getId(), updatedPetDTO.getId());
+        Assertions.assertEquals(returnedPetDTO.getName(), updatedPetDTO.getName());
+        Assertions.assertEquals(returnedPetDTO.getType(), updatedPetDTO.getType());
+        Assertions.assertEquals(returnedPetDTO.getBreed(), updatedPetDTO.getBreed());
+        verify(petRepository, times(1)).findById(1L);
+        verify(petRepository, times(1)).save(existingPetEntity);
     }
 
     @Test
     void shouldSavePet() {
         PetEntity petEntity = new PetEntity();
         petEntity.setId(1L);
+        petEntity.setName("name");
 
-        when(petRepository.save(eq(petEntity))).thenReturn(petEntity);
+        PetDTO petDTO = PetDTO.builder()
+                .name("name")
+                .build();
 
-        PetEntity pet = petComponent.savePet(petEntity);
+        when(petRepository.save(any(PetEntity.class))).thenReturn(petEntity);
 
-        assertEquals(Long.valueOf(1L), pet.getId());
+        PetDTO pet = petComponent.savePet(petDTO);
+
+        Assertions.assertEquals(Long.valueOf(1L), pet.getId());
+        Assertions.assertEquals("name", pet.getName());
     }
 
     @Test
@@ -61,7 +103,7 @@ public class PetComponentTest {
 
         PetNotFoundException exception = assertThrows(PetNotFoundException.class, () -> petComponent.getPetById(1L));
 
-        assertEquals("Pet not found", exception.getMessage());
+        Assertions.assertEquals("Pet not found", exception.getMessage());
     }
 
     @Test
@@ -72,9 +114,9 @@ public class PetComponentTest {
 
         when(petRepository.findById(1L)).thenReturn(Optional.of(petEntity));
 
-        PetEntity petEntityResult = petComponent.getPetById(1L);
+        PetDTO petDTO = petComponent.getPetById(1L);
 
-        assertEquals(Long.valueOf(1L), petEntityResult.getId());
+        Assertions.assertEquals(Long.valueOf(1L), petDTO.getId());
     }
 
 }

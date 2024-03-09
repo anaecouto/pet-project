@@ -1,11 +1,10 @@
 package br.com.anaelisa.petproject.infra.controller;
 
 import br.com.anaelisa.petproject.application.component.PetComponent;
-import br.com.anaelisa.petproject.domain.entity.PetEntity;
+import br.com.anaelisa.petproject.application.dto.PetDTO;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
-import br.com.anaelisa.petproject.application.dto.UpdatePetDTO;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,44 +15,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/pet")
 @ResponseBody
+@RequiredArgsConstructor
 public class PetController {
 
-    @Autowired
-    private PetComponent petComponent;
+    private final PetComponent petComponent;
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<PetEntity>>> getPets() {
-        List<PetEntity> petList = petComponent.getPetList();
+    public ResponseEntity<ApiResponse<List<PetDTO>>> getPets() {
+        List<PetDTO> petList = petComponent.getPetList();
 
-        ApiResponse<List<PetEntity>> apiResponse = new ApiResponse<>("SUCCESS", petList, 200L, null);
+        ApiResponse<List<PetDTO>> apiResponse = new ApiResponse<>("SUCCESS", petList, 200L, null);
 
         return ResponseEntity.status(200).body(apiResponse);
     }
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse<PetEntity>> savePet(@Valid @RequestBody PetEntity petEntity) {
-        PetEntity savedPet = petComponent.savePet(petEntity);
+    public ResponseEntity<ApiResponse<PetDTO>> savePet(@Valid @RequestBody PetDTO petDTO) {
+        PetDTO savedPet = petComponent.savePet(petDTO);
 
-        ApiResponse<PetEntity> apiResponse = new ApiResponse<>("SUCCESS", savedPet, 201L, null);
+        ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", savedPet, 201L, null);
 
         return ResponseEntity.status(201).body(apiResponse);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<PetEntity>> getPet(@PathVariable Long id) {
-        PetEntity pet = petComponent.getPetById(id);
+    public ResponseEntity<ApiResponse<PetDTO>> getPet(@PathVariable Long id) {
+        PetDTO pet = petComponent.getPetById(id);
 
-        ApiResponse<PetEntity> apiResponse = new ApiResponse<>("SUCCESS", pet, 200L, null);
+        ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", pet, 200L, null);
 
         return ResponseEntity.status(200).body(apiResponse);
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<ApiResponse<PetEntity>> updatePet(@PathVariable Long id, @Valid @RequestBody UpdatePetDTO updatePetDTO) {
+    @PutMapping("")
+    public ResponseEntity<ApiResponse<PetDTO>> updatePet(@Valid @RequestBody PetDTO petDTO) {
 
-        PetEntity petUpdated = petComponent.updatePet(updatePetDTO, id);
+        PetDTO petUpdated = petComponent.updatePet(petDTO);
 
-        ApiResponse<PetEntity> apiResponse = new ApiResponse<>("SUCCESS", petUpdated, 200L, null);
+        ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", petUpdated, 200L, null);
 
         return ResponseEntity.status(HttpStatus.OK).body(apiResponse);
     }
