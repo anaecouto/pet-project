@@ -17,6 +17,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiResponse<String>> handleException(Exception e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
@@ -24,6 +25,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ApiResponse<String>> handlePetNotFoundException(PetNotFoundException e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 404L, e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
@@ -31,6 +33,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiResponse<String>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
@@ -38,6 +41,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiResponse<String>> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, e.getMessage());
+        e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
