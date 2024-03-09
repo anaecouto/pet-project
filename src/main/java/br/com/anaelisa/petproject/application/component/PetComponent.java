@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,22 +21,20 @@ public class PetComponent {
 
     private final PetRepository petRepository;
 
-    @Cacheable(value = "petListCache", key = "'allPets'")
+    @Transactional(readOnly = true)
     public List<PetDTO> getPetList() {
         List<PetEntity> petEntityList = petRepository.findAll();
         return PetMapper.INSTANCE.toDtoList(petEntityList);
     }
 
-    @CachePut(value = "petCache", key = "#result.id")
-    @CacheEvict(value = "petListCache", allEntries = true)
+    @Transactional
     public PetDTO savePet(PetDTO petDTO) {
         PetEntity petEntity = PetMapper.INSTANCE.toEntity(petDTO);
         PetEntity savedPet = petRepository.save(petEntity);
         return PetMapper.INSTANCE.toDto(savedPet);
     }
 
-    @CachePut(value = "petCache", key = "#petDTO.id")
-    @CacheEvict(value = "petListCache", allEntries = true)
+    @Transactional
     public PetDTO updatePet(PetDTO petDTO) {
         PetEntity existingPet = petRepository.findById(petDTO.getId()).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
@@ -48,7 +47,7 @@ public class PetComponent {
         return PetMapper.INSTANCE.toDto(savedPet);
     }
 
-    @Cacheable(value = "petCache", key = "#id")
+    @Transactional(readOnly = true)
     public PetDTO getPetById(Long id) {
         PetEntity petEntity = petRepository.findById(id).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
@@ -56,10 +55,7 @@ public class PetComponent {
         return PetMapper.INSTANCE.toDto(petEntity);
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "petCache", key = "#id"),
-            @CacheEvict(value = "petListCache", allEntries = true)
-    })
+    @Transactional
     public String deletePet(Long id) {
         petRepository.findById(id).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
