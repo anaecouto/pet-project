@@ -88,24 +88,13 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void getPetByIdFailureIdNotExists() throws Exception {
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/pet/{id}", 1L);
-
-        mvc.perform(request)
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.content", equalTo(null)))
-                .andExpect(jsonPath("$.status", equalTo(404)))
-                .andExpect(jsonPath("$.error", equalTo("Pet not found")));
-    }
-
-    @Test
     @Sql("/scripts/insert-into-pet-table.sql")
     void deletePetById() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/pet/{id}", 1L);
 
         mvc.perform(request)
                 .andExpect(status().isNoContent())
-                .andExpect(jsonPath("$.content", equalTo( "Pet with id " + 1 + " deleted successfully")));
+                .andExpect(jsonPath("$.content", equalTo("Pet with id " + 1 + " deleted successfully")));
     }
 
     @Test
@@ -115,6 +104,17 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
         mvc.perform(request)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.content", equalTo(null)))
+                .andExpect(jsonPath("$.error", equalTo("Pet not found")));
+    }
+
+    @Test
+    @Sql("/scripts/insert-into-pet-table.sql")
+    void getPetByIdFailureIdNotExists() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/pet/{id}", 3L);
+        mvc.perform(request)
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.content", equalTo(null)))
+                .andExpect(jsonPath("$.status", equalTo(404)))
                 .andExpect(jsonPath("$.error", equalTo("Pet not found")));
     }
 
