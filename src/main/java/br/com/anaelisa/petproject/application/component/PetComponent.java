@@ -6,10 +6,6 @@ import br.com.anaelisa.petproject.application.mapper.PetMapper;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
 import br.com.anaelisa.petproject.infra.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
