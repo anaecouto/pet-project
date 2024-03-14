@@ -2,8 +2,6 @@ package br.com.anaelisa.petproject.infra.auth.service;
 
 import br.com.anaelisa.petproject.infra.auth.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final JwtUtil jwtUtil;
-    @Qualifier("authenticationManagerBean")
     private final AuthenticationManager authenticationManager;
     private final UserDetailsServiceImpl userDetailsService;
 
