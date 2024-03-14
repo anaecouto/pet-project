@@ -4,6 +4,7 @@ import br.com.anaelisa.petproject.application.dto.PetDTO;
 import br.com.anaelisa.petproject.infra.auth.dto.RegistrationRequest;
 import br.com.anaelisa.petproject.infra.auth.service.UserService;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<String>> registerUser(@RequestBody RegistrationRequest registrationRequest) {
+    public ResponseEntity<ApiResponse<String>> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
             userService.register(registrationRequest);
             ApiResponse<String> apiResponse = new ApiResponse<>("SUCCESS", "User registered successfully", 200L, null);
             return ResponseEntity.status(200).body(apiResponse);
