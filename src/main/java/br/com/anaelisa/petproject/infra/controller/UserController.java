@@ -1,17 +1,15 @@
 package br.com.anaelisa.petproject.infra.controller;
 
-import br.com.anaelisa.petproject.application.dto.PetDTO;
 import br.com.anaelisa.petproject.infra.auth.dto.RegistrationRequest;
 import br.com.anaelisa.petproject.infra.auth.service.UserService;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
