@@ -1,5 +1,6 @@
 package br.com.anaelisa.petproject.domain.entity;
 
+import br.com.anaelisa.petproject.application.component.auth.enums.EnumRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class CustomerEntity {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
+    private EnumRoles role = EnumRoles.USER;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PetEntity> petList;
