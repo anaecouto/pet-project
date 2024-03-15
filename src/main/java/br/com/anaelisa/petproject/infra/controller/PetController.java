@@ -1,7 +1,7 @@
 package br.com.anaelisa.petproject.infra.controller;
 
-import br.com.anaelisa.petproject.application.component.PetComponent;
-import br.com.anaelisa.petproject.application.dto.PetDTO;
+import br.com.anaelisa.petproject.application.component.pet.service.PetService;
+import br.com.anaelisa.petproject.application.component.pet.dto.PetDTO;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PetController {
 
-    private final PetComponent petComponent;
+    private final PetService petService;
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<List<PetDTO>>> getPets() {
-        List<PetDTO> petList = petComponent.getPetList();
+        List<PetDTO> petList = petService.getPetList();
 
         ApiResponse<List<PetDTO>> apiResponse = new ApiResponse<>("SUCCESS", petList, 200L, null);
 
@@ -31,7 +31,7 @@ public class PetController {
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<PetDTO>> savePet(@Valid @RequestBody PetDTO petDTO) {
-        PetDTO savedPet = petComponent.savePet(petDTO);
+        PetDTO savedPet = petService.savePet(petDTO);
 
         ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", savedPet, 201L, null);
 
@@ -40,7 +40,7 @@ public class PetController {
 
     @GetMapping("{id}")
     public ResponseEntity<ApiResponse<PetDTO>> getPet(@PathVariable Long id) {
-        PetDTO pet = petComponent.getPetById(id);
+        PetDTO pet = petService.getPetById(id);
 
         ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", pet, 200L, null);
 
@@ -50,7 +50,7 @@ public class PetController {
     @PutMapping("")
     public ResponseEntity<ApiResponse<PetDTO>> updatePet(@Valid @RequestBody PetDTO petDTO) {
 
-        PetDTO petUpdated = petComponent.updatePet(petDTO);
+        PetDTO petUpdated = petService.updatePet(petDTO);
 
         ApiResponse<PetDTO> apiResponse = new ApiResponse<>("SUCCESS", petUpdated, 200L, null);
 
@@ -59,7 +59,7 @@ public class PetController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<ApiResponse<String>> deletePet(@PathVariable Long id) {
-        String petDeleted = petComponent.deletePet(id);
+        String petDeleted = petService.deletePet(id);
 
         ApiResponse<String> apiResponse = new ApiResponse<>("SUCCESS", petDeleted , 204L, null);
 

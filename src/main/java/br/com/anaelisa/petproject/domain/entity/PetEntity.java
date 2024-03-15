@@ -1,5 +1,6 @@
 package br.com.anaelisa.petproject.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,9 @@ public class PetEntity {
 
     @NotNull
     private String breed;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private UserEntity owner;
 }

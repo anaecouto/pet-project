@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.application.dto;
+package br.com.anaelisa.petproject.application.component.pet.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

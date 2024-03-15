@@ -1,6 +1,7 @@
-package br.com.anaelisa.petproject.infra.auth.service;
+package br.com.anaelisa.petproject.application.component.auth.service;
 
-import br.com.anaelisa.petproject.infra.auth.util.JwtUtil;
+import br.com.anaelisa.petproject.infra.security.implementation.UserDetailsServiceImpl;
+import br.com.anaelisa.petproject.infra.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

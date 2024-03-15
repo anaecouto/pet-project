@@ -1,8 +1,8 @@
 package br.com.anaelisa.petproject.infra.controller;
 
-import br.com.anaelisa.petproject.infra.auth.dto.JwtAuthenticationResponse;
-import br.com.anaelisa.petproject.infra.auth.dto.LoginRequest;
-import br.com.anaelisa.petproject.infra.auth.service.AuthService;
+import br.com.anaelisa.petproject.application.component.auth.dto.JwtAuthenticationResponseDTO;
+import br.com.anaelisa.petproject.application.component.auth.dto.LoginRequestDTO;
+import br.com.anaelisa.petproject.application.component.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +18,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        String jwt = authService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
+        String jwt = authService.authenticate(loginRequestDTO.getUsername(), loginRequestDTO.getPassword());
+        return ResponseEntity.ok(new JwtAuthenticationResponseDTO(jwt));
     }
 }
 

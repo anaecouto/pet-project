@@ -1,10 +1,10 @@
-package br.com.anaelisa.petproject.infra.auth.dto;
+package br.com.anaelisa.petproject.application.component.user.dto;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-public class RegistrationRequest {
+public class RegistrationRequestDTO {
 
     private String username;
 

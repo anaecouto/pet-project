@@ -1,6 +1,6 @@
-package br.com.anaelisa.petproject.infra.auth.config;
+package br.com.anaelisa.petproject.infra.security.config;
 
-import br.com.anaelisa.petproject.infra.auth.filter.JwtRequestFilter;
+import br.com.anaelisa.petproject.infra.security.filter.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

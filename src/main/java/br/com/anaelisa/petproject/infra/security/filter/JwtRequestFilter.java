@@ -1,7 +1,7 @@
-package br.com.anaelisa.petproject.infra.auth.filter;
+package br.com.anaelisa.petproject.infra.security.filter;
 
-import br.com.anaelisa.petproject.infra.auth.service.UserDetailsServiceImpl;
-import br.com.anaelisa.petproject.infra.auth.util.JwtUtil;
+import br.com.anaelisa.petproject.infra.security.implementation.UserDetailsServiceImpl;
+import br.com.anaelisa.petproject.infra.security.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

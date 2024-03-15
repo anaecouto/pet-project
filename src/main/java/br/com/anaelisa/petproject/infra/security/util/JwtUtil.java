@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.infra.auth.util;
+package br.com.anaelisa.petproject.infra.security.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -33,16 +33,6 @@ public class JwtUtil {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
-
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        Key key = Keys.hmacShaKeyFor(keyBytes);
-
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMs * 1000))
-                .signWith(key, SignatureAlgorithm.HS512).compact();
-    }
-
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
@@ -53,11 +43,21 @@ public class JwtUtil {
         return expiration.before(new Date());
     }
 
-    public Date getExpirationDateFromToken(String token) {
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
+
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMs * 1000))
+                .signWith(key, SignatureAlgorithm.HS512).compact();
+    }
+
+    private Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+    private <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
