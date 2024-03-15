@@ -42,7 +42,9 @@ public class PetService {
 
     @Transactional
     public PetDTO updatePet(PetDTO petDTO) {
-        PetEntity existingPet = petRepository.findById(petDTO.getId()).orElseThrow(() ->
+        UserEntity userEntity = authenticatedUserService.getLoggedUser();
+
+        PetEntity existingPet = petRepository.findByIdAndOwnerId(petDTO.getId(), userEntity.getId()).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
 
         existingPet.setName(petDTO.getName());
@@ -55,7 +57,9 @@ public class PetService {
 
     @Transactional(readOnly = true)
     public PetDTO getPetById(Long id) {
-        PetEntity petEntity = petRepository.findById(id).orElseThrow(() ->
+        UserEntity userEntity = authenticatedUserService.getLoggedUser();
+
+        PetEntity petEntity = petRepository.findByIdAndOwnerId(id, userEntity.getId()).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
 
         return PetMapper.INSTANCE.toDto(petEntity);
@@ -63,7 +67,9 @@ public class PetService {
 
     @Transactional
     public String deletePet(Long id) {
-        petRepository.findById(id).orElseThrow(() ->
+        UserEntity userEntity = authenticatedUserService.getLoggedUser();
+
+        petRepository.findByIdAndOwnerId(id, userEntity.getId()).orElseThrow(() ->
                 new PetNotFoundException("Pet not found"));
 
         petRepository.deleteById(id);
