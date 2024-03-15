@@ -27,7 +27,7 @@ public class CustomerController {
 
     @GetMapping("")
     public ResponseEntity<ApiResponse<List<CustomerDTO>>> listCustomers() {
-        List<CustomerDTO> users = customerService.listAllUsers();
+        List<CustomerDTO> users = customerService.listAllCustomers();
         ApiResponse<List<CustomerDTO>> apiResponse = new ApiResponse<>("SUCCESS", users, 200L, null);
         return ResponseEntity.status(200).body(apiResponse);
     }

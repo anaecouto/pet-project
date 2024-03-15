@@ -26,15 +26,15 @@ public class CustomerService {
             throw new ResourceAlreadyExists("Username already exists");
         }
 
-        CustomerEntity user = new CustomerEntity();
-        user.setUsername(registrationRequestDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationRequestDTO.getPassword()));
+        CustomerEntity customer = new CustomerEntity();
+        customer.setUsername(registrationRequestDTO.getUsername());
+        customer.setPassword(passwordEncoder.encode(registrationRequestDTO.getPassword()));
 
-        customerRepository.save(user);
+        customerRepository.save(customer);
     }
 
     @Transactional
-    public List<CustomerDTO> listAllUsers() {
+    public List<CustomerDTO> listAllCustomers() {
         List<CustomerEntity> customerEntityList = customerRepository.findAll();
 
         return CustomerMapper.INSTANCE.toDtoList(customerEntityList);
