@@ -1,6 +1,5 @@
 package br.com.anaelisa.petproject.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 public class PetEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "pet_id_seq")
+    @SequenceGenerator(name = "pet_id_seq", sequenceName = "pet_id_seq", allocationSize = 1)
     private Long id;
 
     @NotNull
@@ -34,6 +34,6 @@ public class PetEntity {
     private String breed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private CustomerEntity owner;
 }

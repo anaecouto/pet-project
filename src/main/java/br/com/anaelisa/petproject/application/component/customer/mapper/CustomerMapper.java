@@ -12,10 +12,10 @@ public interface CustomerMapper {
 
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
-    @Mapping(source = "petList", target = "petList")
+//    @Mapping(source = "petList", target = "petList")
     CustomerDTO toDto(CustomerEntity customerEntity);
 
-    @Mapping(source = "petList", target = "petList")
+//    @Mapping(source = "petList", target = "petList")
     CustomerEntity toEntity(CustomerDTO customerDTO);
 
     List<CustomerDTO> toDtoList(List<CustomerEntity> customerEntityList);

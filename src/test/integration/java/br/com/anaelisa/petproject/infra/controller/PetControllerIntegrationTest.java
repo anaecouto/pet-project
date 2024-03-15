@@ -1,6 +1,7 @@
 package br.com.anaelisa.petproject.infra.controller;
 
 import br.com.anaelisa.petproject.BaseIntegrationTest;
+import br.com.anaelisa.petproject.application.component.pet.dto.PetDTO;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
@@ -38,14 +39,12 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void savePetEntity() throws Exception {
-        PetEntity petEntity = new PetEntity();
+        PetDTO petDTO = PetDTO.builder().name("name").breed("breed").type("type").build();
 
-        petEntity.setName("name");
-        petEntity.setBreed("breed");
-        petEntity.setType("type");
-
-        String content = (new GsonBuilder().setPrettyPrinting().create().toJson(petEntity));
+        String content = (new GsonBuilder().setPrettyPrinting().create().toJson(petDTO));
 
         MockHttpServletRequestBuilder request =
                 MockMvcRequestBuilders.post("/pet")
@@ -58,6 +57,8 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void savePetEntityFailWithNullFields() throws Exception {
         PetEntity petEntity = new PetEntity();
 
@@ -78,6 +79,7 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void getPetByIdSuccess() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/pet/{id}", 1L);
 
@@ -91,6 +93,7 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void deletePetById() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/pet/{id}", 1L);
 
@@ -100,8 +103,10 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void deletePetByIdFailureWithNoExistentId() throws Exception {
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/pet/{id}", 1L);
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/pet/{id}", 4L);
 
         mvc.perform(request)
                 .andExpect(status().isNotFound())
@@ -111,6 +116,7 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void getPetByIdFailureIdNotExists() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/pet/{id}", 3L);
         mvc.perform(request)
@@ -122,6 +128,7 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void updatePet() throws Exception {
         PetEntity petEntity = new PetEntity();
 
@@ -146,10 +153,12 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void updatePetFailureWithNonExistentId() throws Exception {
         PetEntity petEntity = new PetEntity();
 
-        petEntity.setId(1L);
+        petEntity.setId(4L);
         petEntity.setName("nameUpdated");
         petEntity.setType("typeUpdated");
         petEntity.setBreed("breedUpdated");
