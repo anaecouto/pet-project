@@ -11,22 +11,26 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import java.util.List;
 
 @Entity
+@Table(name = "customer")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Cacheable
 @Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
-public class UserEntity {
+public class CustomerEntity {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-        private String username;
+    @Column(name = "username")
+    private String username;
 
-        private String password;
+    @Column(name = "password")
+    private String password;
 
-        @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-        private List<PetEntity> petList;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PetEntity> petList;
 }

@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.application.component.user.dto;
+package br.com.anaelisa.petproject.application.component.customer.dto;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

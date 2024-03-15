@@ -1,4 +1,4 @@
-package br.com.anaelisa.petproject.application.component.user.dto;
+package br.com.anaelisa.petproject.application.component.customer.dto;
 
 import br.com.anaelisa.petproject.application.component.pet.dto.PetDTO;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class CustomerDTO {
     private Long id;
     private String username;
     private List<PetDTO> petList;

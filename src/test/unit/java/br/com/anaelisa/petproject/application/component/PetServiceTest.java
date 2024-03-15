@@ -2,10 +2,10 @@ package br.com.anaelisa.petproject.application.component;
 
 import br.com.anaelisa.petproject.application.component.pet.service.PetService;
 import br.com.anaelisa.petproject.application.component.pet.dto.PetDTO;
-import br.com.anaelisa.petproject.application.component.user.service.AuthenticatedUserService;
+import br.com.anaelisa.petproject.application.component.customer.service.AuthenticatedUserService;
 import br.com.anaelisa.petproject.application.error.PetNotFoundException;
+import br.com.anaelisa.petproject.domain.entity.CustomerEntity;
 import br.com.anaelisa.petproject.domain.entity.PetEntity;
-import br.com.anaelisa.petproject.domain.entity.UserEntity;
 import br.com.anaelisa.petproject.infra.repository.PetRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,15 +35,15 @@ public class PetServiceTest {
 
     @Test
     void shouldListAllPets() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(1L);
 
         List<PetEntity> petEntityList = List.of(
-                new PetEntity(1L, "pet 1", "type 1", "breed 1", userEntity),
-                new PetEntity(2L, "pet 2", "type 2", "breed 2", userEntity));
+                new PetEntity(1L, "pet 1", "type 1", "breed 1", customerEntity),
+                new PetEntity(2L, "pet 2", "type 2", "breed 2", customerEntity));
 
-        when(authenticatedUserService.getLoggedUser()).thenReturn(userEntity);
-        when(petRepository.findAllByOwnerId(userEntity.getId())).thenReturn(petEntityList);
+        when(authenticatedUserService.getLoggedUser()).thenReturn(customerEntity);
+        when(petRepository.findAllByOwnerId(customerEntity.getId())).thenReturn(petEntityList);
 
         List<PetDTO> petEntityListResult = petService.getPetList();
 
@@ -56,8 +56,8 @@ public class PetServiceTest {
     @Test
     void shouldUpdatePet() {
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(1L);
 
         PetDTO updatedPetDTO = PetDTO.builder()
                 .id(1L)
@@ -71,17 +71,17 @@ public class PetServiceTest {
         existingPetEntity.setName("Old name");
         existingPetEntity.setType("Dog");
         existingPetEntity.setBreed("Golden Retriever");
-        existingPetEntity.setOwner(userEntity);
+        existingPetEntity.setOwner(customerEntity);
 
         PetEntity savedPetEntity = new PetEntity();
         savedPetEntity.setId(1L);
         savedPetEntity.setName("New name");
         savedPetEntity.setType("Dog");
         savedPetEntity.setBreed("Golden Retriever");
-        savedPetEntity.setOwner(userEntity);
+        savedPetEntity.setOwner(customerEntity);
 
-        when(authenticatedUserService.getLoggedUser()).thenReturn(userEntity);
-        when(petRepository.findByIdAndOwnerId(existingPetEntity.getId(), userEntity.getId()))
+        when(authenticatedUserService.getLoggedUser()).thenReturn(customerEntity);
+        when(petRepository.findByIdAndOwnerId(existingPetEntity.getId(), customerEntity.getId()))
                 .thenReturn(Optional.of(existingPetEntity));
         when(petRepository.save(existingPetEntity)).thenReturn(savedPetEntity);
 
@@ -116,11 +116,11 @@ public class PetServiceTest {
     @Test
     void shouldThrowErrorIfPetNotExists() {
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(1L);
 
-        when(authenticatedUserService.getLoggedUser()).thenReturn(userEntity);
-        when(petRepository.findByIdAndOwnerId(1L, userEntity.getId())).thenReturn(Optional.empty());
+        when(authenticatedUserService.getLoggedUser()).thenReturn(customerEntity);
+        when(petRepository.findByIdAndOwnerId(1L, customerEntity.getId())).thenReturn(Optional.empty());
 
         PetNotFoundException exception = assertThrows(PetNotFoundException.class, () -> petService.getPetById(1L));
 
@@ -130,15 +130,15 @@ public class PetServiceTest {
     @Test
     void shouldFindPet() {
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(1L);
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setId(1L);
 
         PetEntity petEntity = new PetEntity();
         petEntity.setId(1L);
-        petEntity.setOwner(userEntity);
+        petEntity.setOwner(customerEntity);
 
-        when(authenticatedUserService.getLoggedUser()).thenReturn(userEntity);
-        when(petRepository.findByIdAndOwnerId(petEntity.getId(), userEntity.getId()))
+        when(authenticatedUserService.getLoggedUser()).thenReturn(customerEntity);
+        when(petRepository.findByIdAndOwnerId(petEntity.getId(), customerEntity.getId()))
                 .thenReturn(Optional.of(petEntity));
 
         PetDTO petDTO = petService.getPetById(1L);

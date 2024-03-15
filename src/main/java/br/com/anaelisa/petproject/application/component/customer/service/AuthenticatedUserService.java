@@ -1,26 +1,24 @@
-package br.com.anaelisa.petproject.application.component.user.service;
+package br.com.anaelisa.petproject.application.component.customer.service;
 
-import br.com.anaelisa.petproject.domain.entity.UserEntity;
-import br.com.anaelisa.petproject.infra.repository.UserRepository;
+import br.com.anaelisa.petproject.domain.entity.CustomerEntity;
+import br.com.anaelisa.petproject.infra.repository.CustomerRepository;
 import br.com.anaelisa.petproject.infra.security.implementation.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-@Component
+@Service
 @RequiredArgsConstructor
 public class AuthenticatedUserService {
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
-    public UserEntity getLoggedUser() {
+    public CustomerEntity getLoggedUser() {
         String username = UserDetailsImpl.getUsernameFromAuthenticatedUser();
-        UserEntity userEntity = userRepository
+        CustomerEntity customerEntity = customerRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
 
-        return userEntity;
+        return customerEntity;
     }
 }

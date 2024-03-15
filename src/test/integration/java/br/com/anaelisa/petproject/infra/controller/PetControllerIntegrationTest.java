@@ -5,6 +5,7 @@ import br.com.anaelisa.petproject.domain.entity.PetEntity;
 import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -18,6 +19,7 @@ public class PetControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     @Sql("/scripts/insert-into-pet-table.sql")
+    @WithMockUser("anacouto")
     void getAllPetsSuccess() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get("/pet");

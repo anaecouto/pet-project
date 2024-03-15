@@ -1,7 +1,7 @@
 package br.com.anaelisa.petproject.infra.security.implementation;
 
-import br.com.anaelisa.petproject.domain.entity.UserEntity;
-import br.com.anaelisa.petproject.infra.repository.UserRepository;
+import br.com.anaelisa.petproject.domain.entity.CustomerEntity;
+import br.com.anaelisa.petproject.infra.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
-        UserEntity user = userRepository.findByUsername(username)
+        CustomerEntity user = customerRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         return User.builder()

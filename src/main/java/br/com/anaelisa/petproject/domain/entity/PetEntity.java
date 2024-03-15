@@ -11,6 +11,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
+@Table(name = "pet")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,7 +34,6 @@ public class PetEntity {
     private String breed;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private UserEntity owner;
+    @JoinColumn(name = "customer_", nullable = false)
+    private CustomerEntity owner;
 }
