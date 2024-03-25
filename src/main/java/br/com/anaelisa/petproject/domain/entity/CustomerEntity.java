@@ -34,7 +34,14 @@ public class CustomerEntity {
     private String password;
 
     @Column(name = "role")
-    private EnumRoles role = EnumRoles.USER;
+    private int role = EnumRoles.COMMON.getId();
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "enable", nullable = false)
+    private boolean enable;
+
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PetEntity> petList;

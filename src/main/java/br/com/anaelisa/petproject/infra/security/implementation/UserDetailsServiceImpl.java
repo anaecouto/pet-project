@@ -1,5 +1,6 @@
 package br.com.anaelisa.petproject.infra.security.implementation;
 
+import br.com.anaelisa.petproject.application.component.auth.enums.EnumRoles;
 import br.com.anaelisa.petproject.domain.entity.CustomerEntity;
 import br.com.anaelisa.petproject.infra.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles(user.getRole().getDescription())
+                .roles(EnumRoles.getDescription(user.getRole()))
                 .build();
     }
 

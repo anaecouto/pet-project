@@ -1,7 +1,7 @@
-INSERT INTO customer (id, username, password)
+INSERT INTO customer (id, username, password, role, verification_code, enable)
     VALUES
-        (1, 'anacouto', ' $2a$12$rEndBk7nHjMIvwuNKq6.LuvfZqeAPVjUwY2DDcbnHtLT.v0hEe1w.'),
-        (2, 'elisa', ' $2a$12$rEndBk7nHjMIvwuNKq6.LuvfZqeAPVjUwY2DDcbnHtLT.v0hEe1w.');
+        (1, 'anacouto', ' $2a$12$rEndBk7nHjMIvwuNKq6.LuvfZqeAPVjUwY2DDcbnHtLT.v0hEe1w.', 1, 'code', true),
+        (2, 'elisa', ' $2a$12$rEndBk7nHjMIvwuNKq6.LuvfZqeAPVjUwY2DDcbnHtLT.v0hEe1w.', 1, 'code', true);
 
 ALTER SEQUENCE customer_id_seq RESTART WITH 3;
 

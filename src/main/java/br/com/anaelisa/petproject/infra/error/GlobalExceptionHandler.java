@@ -2,7 +2,9 @@ package br.com.anaelisa.petproject.infra.error;
 
 import br.com.anaelisa.petproject.application.error.PetNotFoundException;
 import br.com.anaelisa.petproject.application.error.ResourceAlreadyExists;
+import br.com.anaelisa.petproject.application.error.VerificationCodeError;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -17,6 +19,22 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiResponse<String>> handleException(Exception e) {
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(VerificationCodeError.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ApiResponse<String>> handleException(VerificationCodeError e) {
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ApiResponse<String>> handleException(MessagingException e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, e.getMessage());
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

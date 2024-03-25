@@ -1,13 +1,13 @@
 package br.com.anaelisa.petproject.infra.controller;
 
 import br.com.anaelisa.petproject.application.component.customer.dto.CustomerDTO;
-import br.com.anaelisa.petproject.application.component.customer.dto.RegistrationRequestDTO;
 import br.com.anaelisa.petproject.application.component.customer.service.CustomerService;
 import br.com.anaelisa.petproject.infra.helper.ApiResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,13 +17,6 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
-
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<String>> registerCustomer(@Valid @RequestBody RegistrationRequestDTO registrationRequestDTO) {
-            customerService.register(registrationRequestDTO);
-            ApiResponse<String> apiResponse = new ApiResponse<>("SUCCESS", "User registered successfully", 200L, null);
-            return ResponseEntity.status(200).body(apiResponse);
-    }
 
     @GetMapping("")
     public ResponseEntity<ApiResponse<List<CustomerDTO>>> listCustomers() {
