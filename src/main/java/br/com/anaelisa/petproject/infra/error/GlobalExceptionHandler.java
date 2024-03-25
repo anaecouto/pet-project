@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MessagingException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiResponse<String>> handleException(MessagingException e) {
-        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, e.getMessage());
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, "An error has occurred.");
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
