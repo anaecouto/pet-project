@@ -42,7 +42,6 @@ public class CustomerEntity {
     @Column(name = "enable", nullable = false)
     private boolean enable;
 
-
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PetEntity> petList;
 }

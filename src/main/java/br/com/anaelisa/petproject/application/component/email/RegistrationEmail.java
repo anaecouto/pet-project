@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class RegistrationEmail {
 
     @Value("${spring.mail.username}")
-    private String mailUsername;
+    private final String mailUsername;
 
     private final JavaMailSender javaMailSender;
 
