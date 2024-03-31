@@ -43,7 +43,7 @@ public class CustomerRegistrationService {
 
         customerRepository.save(customer);
 
-        registrationEmail.sendVerificationEmail(registrationRequestDTO, verificationCode);
+        registrationEmail.sendVerificationEmailAsync(registrationRequestDTO, verificationCode);
     }
 
     @Transactional

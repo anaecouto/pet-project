@@ -35,7 +35,7 @@ public class RegistrationEmail {
         sendVerificationEmail(registrationRequestDTO, verificationCode);
     }
 
-    public void sendVerificationEmail(RegistrationRequestDTO registrationRequestDTO, String verificationCode)
+    private void sendVerificationEmail(RegistrationRequestDTO registrationRequestDTO, String verificationCode)
             throws MessagingException, IOException
     {
         String htmlContent = Files.readString(resource.getFile().toPath());
