@@ -40,10 +40,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
             } catch (Exception e) {
-                System.out.println("JWT Token has expired");
+                returnErrorResponse(response, e);
+                return;
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
@@ -63,17 +62,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             } catch (UsernameNotFoundException e) {
-                System.out.println(e.getMessage());
-                ApiResponse<String> apiResponse = new ApiResponse<>("ERROR", null, 401L, e.getMessage());
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                ObjectMapper objectMapper = new ObjectMapper();
-                String responseJson = objectMapper.writeValueAsString(apiResponse);
-                response.getWriter().write(responseJson);
+                returnErrorResponse(response, e);
                 return;
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private void returnErrorResponse(HttpServletResponse response, Exception e) throws IOException {
+        System.out.println(e.getMessage());
+
+        ApiResponse<String> apiResponse = new ApiResponse<>("ERROR", null, 401L, "You're not authorized to view this resource.");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseJson = objectMapper.writeValueAsString(apiResponse);
+        response.getWriter().write(responseJson);
     }
 
 }
