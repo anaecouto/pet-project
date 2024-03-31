@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -27,7 +28,7 @@ public class CustomerRegistrationService {
     private final AuthenticatedUserService authenticatedUserService;
 
     @Transactional
-    public void register(RegistrationRequestDTO registrationRequestDTO) throws MessagingException {
+    public void register(RegistrationRequestDTO registrationRequestDTO) throws MessagingException, IOException {
         if (customerRepository.findByUsername(registrationRequestDTO.getUsername()).isPresent()) {
             throw new ResourceAlreadyExists("Username already exists");
         }

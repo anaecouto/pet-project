@@ -4,24 +4,34 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Component
 @RequiredArgsConstructor
 public class RegistrationEmail {
 
     @Value("${spring.mail.username}")
-    private final String mailUsername;
+    private String mailUsername;
 
     private final JavaMailSender javaMailSender;
 
-    public void sendVerificationEmail(String recipientEmail, String verificationCode) throws MessagingException {
+    private final ResourceLoader resourceLoader;
 
-        String htmlContent = "<html><body><h1>Verification Code</h1>"
-                + "<p>Your verification code is: <strong>" + verificationCode + "</strong></p>"
-                + "</body></html>";
+    @Value("classpath:templates/email/VerificationCode.html")
+    private Resource resource;
+
+    public void sendVerificationEmail(String recipientEmail, String verificationCode) throws MessagingException, IOException {
+
+        String htmlContent = Files.readString(resource.getFile().toPath());
+
+        htmlContent = htmlContent.replace("${verificationCode}", verificationCode);
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

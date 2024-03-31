@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/registration")
@@ -21,7 +23,7 @@ public class CustomerRegistrationController {
     private final CustomerRegistrationService customerRegistrationService;
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse<String>> registerCustomer(@Valid @RequestBody RegistrationRequestDTO registrationRequestDTO) throws MessagingException {
+    public ResponseEntity<ApiResponse<String>> registerCustomer(@Valid @RequestBody RegistrationRequestDTO registrationRequestDTO) throws MessagingException, IOException {
         customerRegistrationService.register(registrationRequestDTO);
         ApiResponse<String> apiResponse = new ApiResponse<>("SUCCESS", "User registered successfully", 200L, null);
         return ResponseEntity.status(200).body(apiResponse);
