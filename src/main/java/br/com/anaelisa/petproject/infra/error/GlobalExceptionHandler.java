@@ -40,9 +40,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ApiResponse<String>> handleAuthenticationException(AuthenticationException e) {
-        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, "You're not authorized to view this resource.");
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 401L, "You're not authorized to view this resource.");
         e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @ExceptionHandler(MessagingException.class)
