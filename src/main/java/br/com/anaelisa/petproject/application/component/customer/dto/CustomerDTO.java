@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDTO {
+    private String name;
     private Long id;
     private String username;
     private List<PetDTO> petList;

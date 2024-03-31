@@ -36,13 +36,14 @@ public class CustomerRegistrationService {
         CustomerEntity customer = new CustomerEntity();
         customer.setUsername(registrationRequestDTO.getUsername());
         customer.setPassword(passwordEncoder.encode(registrationRequestDTO.getPassword()));
+        customer.setName(registrationRequestDTO.getName());
 
         String verificationCode = GenerateCode.VERIFICATION_CODE.execute();
         customer.setVerificationCode(verificationCode);
 
         customerRepository.save(customer);
 
-        registrationEmail.sendVerificationEmail(registrationRequestDTO.getUsername(), verificationCode);
+        registrationEmail.sendVerificationEmail(registrationRequestDTO, verificationCode);
     }
 
     @Transactional

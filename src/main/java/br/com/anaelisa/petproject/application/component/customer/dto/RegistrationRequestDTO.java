@@ -8,6 +8,8 @@ import lombok.Data;
 @Builder
 public class RegistrationRequestDTO {
 
+    private String name;
+
     private String username;
 
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$",

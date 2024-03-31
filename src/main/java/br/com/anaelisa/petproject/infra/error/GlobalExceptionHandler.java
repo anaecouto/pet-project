@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.io.IOException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -36,6 +38,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MessagingException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiResponse<String>> handleException(MessagingException e) {
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, "An error has occurred.");
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(IOException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ApiResponse<String>> handleException(IOException e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 500L, "An error has occurred.");
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);

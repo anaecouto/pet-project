@@ -1,5 +1,6 @@
 package br.com.anaelisa.petproject.application.component.email;
 
+import br.com.anaelisa.petproject.application.component.customer.dto.RegistrationRequestDTO;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -27,16 +29,25 @@ public class RegistrationEmail {
     @Value("classpath:templates/email/VerificationCode.html")
     private Resource resource;
 
-    public void sendVerificationEmail(String recipientEmail, String verificationCode) throws MessagingException, IOException {
+    @Async
+    public void sendVerificationEmailAsync(RegistrationRequestDTO registrationRequestDTO, String verificationCode)
+            throws MessagingException, IOException {
+        sendVerificationEmail(registrationRequestDTO, verificationCode);
+    }
 
+    public void sendVerificationEmail(RegistrationRequestDTO registrationRequestDTO, String verificationCode)
+            throws MessagingException, IOException
+    {
         String htmlContent = Files.readString(resource.getFile().toPath());
 
-        htmlContent = htmlContent.replace("${verificationCode}", verificationCode);
+        htmlContent = htmlContent
+                .replace("${verificationCode}", verificationCode)
+                .replace("${userName}", registrationRequestDTO.getName());
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom(mailUsername);
-        helper.setTo(recipientEmail);
+        helper.setTo(registrationRequestDTO.getUsername());
         helper.setSubject("Account Verification");
         helper.setText(htmlContent, true);
         javaMailSender.send(message);

@@ -1,6 +1,63 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .verification-code {
+            font-size: 42px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+        }
+        .footer p {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #999;
+            font-size: 10px;
+        }
+    </style>
+</head>
 <body>
-<h1>Verification Code</h1>
-<p>Your verification code is: <strong>${verificationCode}</strong></p>
+<div class="container">
+    <h1>Account Verification</h1>
+    <p>Hello <strong>${userName}</strong>,</p>
+    <p>Your verification code is:</p>
+    <p class="verification-code">${verificationCode}</p>
+    <p>Please use this code to verify your account.</p>
+    <div class="footer">
+        <p>This is an automated email, please do not reply.</p>
+    </div>
+</div>
 </body>
 </html>
