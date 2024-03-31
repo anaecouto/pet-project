@@ -1,7 +1,9 @@
 package br.com.anaelisa.petproject.infra.security.filter;
 
+import br.com.anaelisa.petproject.infra.helper.ApiResponse;
 import br.com.anaelisa.petproject.infra.security.implementation.UserDetailsServiceImpl;
 import br.com.anaelisa.petproject.infra.security.util.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,7 +63,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
             } catch (UsernameNotFoundException e) {
-                System.out.println("Username not found.");
+                System.out.println(e.getMessage());
+                ApiResponse<String> apiResponse = new ApiResponse<>("ERROR", null, 401L, e.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                ObjectMapper objectMapper = new ObjectMapper();
+                String responseJson = objectMapper.writeValueAsString(apiResponse);
+                response.getWriter().write(responseJson);
+                return;
             }
         }
         chain.doFilter(request, response);
