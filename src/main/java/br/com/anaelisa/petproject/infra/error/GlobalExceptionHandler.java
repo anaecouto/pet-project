@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mail.MailSendException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiResponse<String>> handleException(VerificationCodeError e) {
         ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, e.getMessage());
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ApiResponse<String>> handleAuthenticationException(AuthenticationException e) {
+        ApiResponse<String> response = new ApiResponse<>("ERROR", null, 400L, "You're not authorized to view this resource.");
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
