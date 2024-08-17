@@ -1,6 +1,6 @@
 package br.com.anaelisa.petproject.application.component.customer.dto;
 
-import jakarta.validation.constraints.Pattern;
+import br.com.anaelisa.petproject.domain.validator.ValidPassword;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,7 +12,6 @@ public class RegistrationRequestDTO {
 
     private String username;
 
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$",
-            message = "Password must be at least 8 characters long and contain at least one letter, one digit and one special character")
+    @ValidPassword
     private String password;
 }
