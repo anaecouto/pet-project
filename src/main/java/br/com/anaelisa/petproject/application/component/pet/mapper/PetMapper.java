@@ -17,6 +17,4 @@ public interface PetMapper {
     PetEntity toEntity(PetDTO petDTO);
 
     List<PetDTO> toDtoList(List<PetEntity> petEntity);
-
-    List<PetEntity> toEntityList(List<PetDTO> petDTO);
 }

@@ -15,10 +15,9 @@ public class AuthenticatedUserService {
 
     public CustomerEntity getLoggedUser() {
         String username = UserDetailsImpl.getUsernameFromAuthenticatedUser();
-        CustomerEntity customerEntity = customerRepository
+
+        return customerRepository
                 .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-
-        return customerEntity;
     }
 }

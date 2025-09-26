@@ -3,19 +3,16 @@ package br.com.anaelisa.petproject.application.component.registration;
 import br.com.anaelisa.petproject.application.component.auth.enums.EnumRoles;
 import br.com.anaelisa.petproject.application.component.customer.dto.RegistrationRequestDTO;
 import br.com.anaelisa.petproject.application.component.customer.service.AuthenticatedUserService;
-import br.com.anaelisa.petproject.application.component.email.RegistrationEmail;
 import br.com.anaelisa.petproject.application.error.ResourceAlreadyExists;
 import br.com.anaelisa.petproject.application.error.VerificationCodeError;
 import br.com.anaelisa.petproject.application.utils.GenerateCode;
 import br.com.anaelisa.petproject.domain.entity.CustomerEntity;
 import br.com.anaelisa.petproject.infra.repository.CustomerRepository;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -24,11 +21,10 @@ public class CustomerRegistrationService {
 
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RegistrationEmail registrationEmail;
     private final AuthenticatedUserService authenticatedUserService;
 
     @Transactional
-    public void register(RegistrationRequestDTO registrationRequestDTO) throws MessagingException, IOException {
+    public void register(RegistrationRequestDTO registrationRequestDTO) {
         if (customerRepository.findByUsername(registrationRequestDTO.getUsername()).isPresent()) {
             throw new ResourceAlreadyExists("Username already exists");
         }
@@ -42,8 +38,6 @@ public class CustomerRegistrationService {
         customer.setVerificationCode(verificationCode);
 
         customerRepository.save(customer);
-
-        registrationEmail.sendVerificationEmailAsync(registrationRequestDTO, verificationCode);
     }
 
     @Transactional
